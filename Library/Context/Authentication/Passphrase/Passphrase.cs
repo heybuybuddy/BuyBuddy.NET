@@ -26,6 +26,7 @@ namespace BuyBuddy.Context.Authentication {
     using BuyBuddy.Entities;
     using BuyBuddy.Context.Authentication.Persistence;
     using System.Threading.Tasks;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Passphrase represents an access key to perform an authentication of
@@ -34,6 +35,8 @@ namespace BuyBuddy.Context.Authentication {
     /// middleware.
     /// </summary>
     public sealed class Passphrase : IEquatable<Passphrase> {
+        public static readonly Regex PasswordRegex = new Regex("^[0-9a-zA-Z]{88}$");
+
         /// <summary>
         /// Length of the passkey.
         /// </summary>
@@ -67,10 +70,10 @@ namespace BuyBuddy.Context.Authentication {
         internal Passphrase(int id, string passkey, DateTime issueDate, User owner) {
             this.id = id;
 
-            if (passkey.Length == PasskeyLength) {
+            if (PasswordRegex.Match(passkey).Success) {
                 this.passkey = passkey;
             } else {
-                throw new ArgumentException("Parameter should be 88 characters long.", "passkey");
+                throw new ArgumentException("Parameter should be alphanumeric and exactly 88 characters long.", "passkey");
             }
             
             this.issueDate = issueDate;
