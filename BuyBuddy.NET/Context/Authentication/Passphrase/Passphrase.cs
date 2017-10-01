@@ -25,6 +25,7 @@ using System.Threading;
 namespace BuyBuddy.Context.Authentication {
     using BuyBuddy.Entities;
     using BuyBuddy.Context.Authentication.Persistence;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Passphrase represents an access key to perform an authentication of
@@ -32,10 +33,12 @@ namespace BuyBuddy.Context.Authentication {
     /// credentials (email, password etc.), passphrases are used as a
     /// middleware.
     /// </summary>
-    /// <remarks>
-    /// This class should not be subclassed.
-    /// </remarks>
-    public class Passphrase {
+    public sealed class Passphrase : IEquatable<Passphrase> {
+        /// <summary>
+        /// Length of the passkey.
+        /// </summary>
+        public static readonly int PasskeyLength = 88;
+
         /// <summary>
         /// Database identifier of the passphrase object.
         /// </summary>
@@ -54,34 +57,44 @@ namespace BuyBuddy.Context.Authentication {
         /// <summary>
         /// Owner of the passphrase.
         /// </summary>
-        public readonly User? owner;
+        public readonly User owner;
 
         /// <summary>
         /// Repository of the passphrase.
         /// </summary>
-        internal IPassphraseRepository? repository;
+        public IPassphraseRepository repository;
 
-        internal Passphrase(int id, string passkey, DateTime issueDate, User? owner) {
+        internal Passphrase(int id, string passkey, DateTime issueDate, User owner) {
             this.id = id;
-            this.passkey = passkey;
+
+            if (passkey.Length == PasskeyLength) {
+                this.passkey = passkey;
+            } else {
+                throw new ArgumentException("Parameter should be 88 characters long.", "passkey");
+            }
+            
             this.issueDate = issueDate;
             this.owner = owner;
             this.repository = null;
+        }
+
+        public bool Equals(Passphrase passphrase) {
+            return passphrase != null && id == passphrase.id;
         }
 
         /// <summary>
         /// Invalidates the passphrase on the remote API.
         /// <para>You should invalidate the passphrase upon sign out request of user.</para>
         /// </summary>
-        public async void Invalidate() {
+        public async Task InvalidateAsync() {
             return;
         }
 
         /// <summary>
         /// Persists passphrase with given passphrase repository.
         /// </summary>
-        public async void Persist() {
-            repository.Value.Save(this);
+        public async Task Persist() {
+            await repository.SaveAsync(this);
         }
     }
 }

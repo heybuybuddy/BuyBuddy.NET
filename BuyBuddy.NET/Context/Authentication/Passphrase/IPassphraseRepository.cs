@@ -21,6 +21,7 @@
 
 namespace BuyBuddy.Context.Authentication.Persistence {
     using BuyBuddy.Context.Authentication;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// The interface
@@ -46,7 +47,7 @@ namespace BuyBuddy.Context.Authentication.Persistence {
     /// </para>
     /// </summary>
     public interface IPassphraseRepository {
-        public async void Save(Passphrase passphrase);
-        public async Task<Passphrase> Load();
+        Task SaveAsync(Passphrase passphrase);
+        Task<Passphrase> LoadAsync();
     }
 }

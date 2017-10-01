@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Scope Name="Root" PermissionPrefix="BuyBuddy">
+  <Scope Name="IAM" PermissionPrefix="Identity" Path="/iam">
+    <Scope Name="User Management" PermissionPrefix="User" Path="/users">
+      <Route PermissionGroup="UserController" Action="index" Method="GET" Auth="Default">/</Route>
+      <Route PermissionGroup="UserController" Action="show" Method="GET" Auth="Default">/$1::id</Route>
+      <Route PermissionGroup="UserController" Action="create" Method="POST" Auth="Nil">/</Route>
+      <Route PermissionGroup="UserController" Action="delete" Method="DELETE" Auth="Nil">/$1::id</Route>
+      
+      <Route PermissionGroup="Auth.Concrete.PassphraseController" Action="create" Method="POST" Auth="Nil">/passphrases</Route>
+      <Route PermissionGroup="Auth.Concrete.PassphraseInvalidationController" Action="create" Method="POST" Auth="Default">/passphrases/$1::passphrase_id/invalidation</Route>
+    
+      <Route PermissionGroup="Auth.Concrete.TokenController" Action="create" Method="POST" Auth="Nil">/tokens</Route>
+    </Scope>
+  </Scope>
+</Scope>

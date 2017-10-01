@@ -1,4 +1,4 @@
-// Credentials.cs
+// User.cs
 // Copyright (c) 2016-2018 BuyBuddy Elektronik Güvenlik Bilişim Reklam Telekomünikasyon Sanayi ve Ticaret Limited Şirketi ( https://www.buybuddy.co/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,46 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace BuyBuddy.Context.Authentication {
-    /// <summary>
-    /// A class that contains user credentials for challenging the platforms
-    /// authentication authority with email (aka BuyBuddy ID) and password.
-    /// <seealso cref="BuyBuddy.Context.Authentication.CredentialsPersistence" />
-    /// </summary>
-    /// <remarks>
-    /// This class should not be subclassed.
-    /// </remarks>
-    public class Credentials {
-        private string email;
-        private string password;
-
-        /// <summary>
-        /// Users identity in our platform.
-        /// </summary>
-        public string Email {
-            get {
-                return email;
-            }
-            private set {
-                email = value;
-            }
-        }
-
-        /// <summary>
-        /// Users password.
-        /// </summary>
-        public string Password {
-            get {
-                return password;
-            }
-            private set {
-                password = value;
-            }
-        }
-
-        public Credentials(string email, string password) {
-            this.email = email;
-            this.password = password;
-        }
+namespace BuyBuddy.Entities {
+    public class User {
+        
     }
 }

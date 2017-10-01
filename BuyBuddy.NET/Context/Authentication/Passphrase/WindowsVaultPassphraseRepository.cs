@@ -2,6 +2,7 @@
 
 namespace BuyBuddy.Context.Authentication.Persistence {
     using BuyBuddy.Context.Authentication;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Stores passphrase in Windows Vault / Credentials Manager.
@@ -12,18 +13,18 @@ namespace BuyBuddy.Context.Authentication.Persistence {
     public class WindowsVaultPassphraseRepository {
         private static readonly string PassphraseTarget = "\\Windows\\BuyBuddy\\Passphrase\\";
 
-        public async void Save() {
-            using (var cred = new Credential()) {
-                cred.Password = password;
-                cred.Target = PassphraseTarget;
-                cred.Type = CredentialType.Generic;
-                cred.PersistanceType = PersistanceType.LocalComputer;
-                cred.Save();
-            }
+        public async Task SaveAsync() {
+            //using (var cred = new Credential()) {
+            //    cred.Password = password;
+            //    cred.Target = PassphraseTarget;
+            //    cred.Type = CredentialType.Generic;
+            //    cred.PersistanceType = PersistanceType.LocalComputer;
+            //    cred.Save();
+            //}
         }
 
-        public async Task<Passphrase> Load() {
-
+        public async Task<Passphrase> LoadAsync() {
+            return null;
         }
     }
 }
